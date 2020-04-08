@@ -28,7 +28,7 @@ abstract class AbstractCollection implements ArrayAccess, Countable, IteratorAgg
 
     private array $elements = [];
 
-    private ?ReflectionClass $typeReflection;
+    private ?ReflectionClass $typeReflection = null;
 
     /**
      * AbstractCollection constructor.
@@ -241,18 +241,19 @@ abstract class AbstractCollection implements ArrayAccess, Countable, IteratorAgg
                     return;
                 }
 
-                if (!$rc->isSubclassOf($this->getType()) && $rc->getName() !== $this->getType()) {
+                if ($rc->isSubclassOf($this->getType()) || $rc->getName() === $this->getType()) {
+                    return;
                 }
-
-                throw new InvalidArgumentException(sprintf('The collection "%s" must have elements which are instances of "%s" to be merged with collection of type "%s", but elements of type "%s" given', \get_class($collection), $this->getType(), \get_class($this), $collection->getType()));
             } catch (ReflectionException $exception) {
                 // should not happen
             }
-        } else {
-            if ($collection->getType() !== $this->getType()) {
-                throw new InvalidArgumentException(sprintf('The collection "%s" must have elements which are type of "%s" to be merged with collection of type "%s"', \get_class($collection), $this->getType(), \get_class($this)));
-            }
         }
+
+        if ($collection->getType() === $this->getType()) {
+            return;
+        }
+
+        throw new InvalidArgumentException(sprintf('The collection "%s" must have elements which are instances of "%s" to be merged with collection of type "%s", but elements of type "%s" given', \get_class($collection), $this->getType(), \get_class($this), $collection->getType()));
     }
 
     /**
