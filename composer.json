@@ -1,0 +1,14 @@
+{
+  "name": "simonmarx/utils",
+  "type": "library",
+  "description": "Provides helper functions",
+  "version": "1.0.0",
+  "require": {
+    "php": "~7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "SimonMarx\\Utils\\": "src/"
+    }
+  }
+}
