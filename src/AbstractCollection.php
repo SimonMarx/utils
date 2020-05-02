@@ -26,9 +26,11 @@ abstract class AbstractCollection implements ArrayAccess, Countable, IteratorAgg
      */
     public const TYPELESS_COLLECTION_TYPE = "SM_TYPELESS_TYPE";
 
-    private array $elements = [];
+    /** @var array */
+    private $elements = [];
 
-    private ?ReflectionClass $typeReflection = null;
+    /** @var ReflectionClass|null */
+    private $typeReflection = null;
 
     /**
      * AbstractCollection constructor.
